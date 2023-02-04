@@ -1,0 +1,14 @@
+{% extends 'App1/index.html' %}
+{% block title %}Hello Guys! - Tools{% endblock title %}  
+{% block body %}
+<div class="container">
+    <h1 class="text-center my-5">JPG to PDF</h1>
+    <div class="text-center">
+        <form method="post" action="jpg-2-pdf" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="file" name="image" accept="image/gif, image/jpeg"/>
+            <button type="submit" id="convert">Convert</button>
+        </form>
+    </div>
+</div>
+{% endblock body %}
