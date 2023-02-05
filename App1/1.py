@@ -16,3 +16,7 @@
 #     send_mail(subject, message, email_from, recipient_list)
 # except Exception as err:
 #     print('error - ', err)
+
+import random
+
+print(f'{random.randint(0, 9)}{random.randint(0, 9)}{random.randint(0, 9)}{random.randint(0, 9)}{random.randint(0, 9)}{random.randint(0, 9)}')

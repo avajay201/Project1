@@ -1,17 +1,11 @@
-$('.forgot-passss').on('mouseover', function(){
-    $(this).css({'color': 'blue', 'text-decoration': 'underline', 'cursor': 'pointer'});
-})
-
-$('.forgot-passss').on('mouseout', function(){
-    $(this).css({'color': '#cfcfcf', 'text-decoration': 'none'});
-})
-
-// $('.forgot-passss').on('click', function(){
-//     $('.login_').replaceWith('<h2 class="login_">Reset Password</h2>')
-//     $('.forgot-pass').remove();
-//     $('#login_password').parent().remove();
-//     $('#sign_in_btn').replaceWith('<button type="button" class="submit" id="reset_pass_btn">Submit</button>')
+// $('.forgot-passss').on('mouseover', function(){
+//     $(this).css({'color': 'blue', 'text-decoration': 'underline', 'cursor': 'pointer'});
 // })
+
+// $('.forgot-passss').on('mouseout', function(){
+//     $(this).css({'color': '#cfcfcf', 'text-decoration': 'none'});
+// })
+
 
 function reload() {
     window.location = '/';
@@ -22,13 +16,13 @@ $('.sign_up').on('click', function () {
     username = $('input[name=username]').val();
     fname = $('input[name=first_name]').val();
     lname = $('input[name=last_name]').val();
-    emal = $('input[name=emal]').val();
+    email = $('input[name=email]').val();
     password = $('input[name=pass]').val();
     c_password = $('input[name=c_pass]').val();
     user_status = false;
     fname_status = false;
     lname_status = false;
-    emal_status = false;
+    email_status = false;
     pass_status = false;
     c_pass_status = false;
     if (username == ''){
@@ -76,20 +70,20 @@ $('.sign_up').on('click', function () {
             lname_status = false;
         }
     }
-    if (emal == ''){
-        $('#emal_error').css('display', 'block');
-        emal_status = false;
+    if (email == ''){
+        $('#email_error').css('display', 'block');
+        email_status = false;
     }
     else{
         let regex = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-        if (regex.test(emal)) {
-            $('#emal_error').css('display', 'none');
-            emal_status = true;
+        if (regex.test(email)) {
+            $('#email_error').css('display', 'none');
+            email_status = true;
         }
         else {
-            $('#emal_error').css('display', 'block');
-            $('#emal_error').text('Please enter correct email.');
-            emal_status = false;
+            $('#email_error').css('display', 'block');
+            $('#email_error').text('Please enter correct email.');
+            email_status = false;
         }
     }
     if (password == ''){
@@ -109,7 +103,7 @@ $('.sign_up').on('click', function () {
         c_pass_status = true;
     }
     form_status = true;
-    if (user_status == true & fname_status == true & lname_status == true & emal_status == true & pass_status == true & c_pass_status == true){
+    if (user_status == true & fname_status == true & lname_status == true & email_status == true & pass_status == true & c_pass_status == true){
         form_status = true;
     }
     else{
@@ -120,14 +114,14 @@ $('.sign_up').on('click', function () {
             data = {
                 'fname': fname,
                 'lname': lname,
-                'emal': emal,
+                'email': email,
                 'username': username,
                 'password': password,
                 'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val()
             }
             $.ajax({
                 type: 'post',
-                url: 'sign_up',
+                url: 'sign-up',
                 data: data,
                 success: function (response) {
                     if (response.error == 'Entered username already exists. Please try different username.') {
@@ -195,7 +189,7 @@ $('.sign_in').on('click', function () {
         }
         $.ajax({
             type: 'POST',
-            url: 'sign_in',
+            url: 'sign-in',
             data: data,
             success: function (data) {
                 if (data.error == 'Please enter correct username or password.') {
@@ -213,7 +207,52 @@ $('.sign_in').on('click', function () {
     }
 })
 
+$('.forget_pass_otp').on('click', function(){
+    $('.spinner').css('display', 'block');
+    email = $('input[name=email]').val();
+    email_status = false;
+    if (email == ''){
+        $('#email_error').css('display', 'block');
+        email_status = false;
+    }
+    else{
+        let regex = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+        if (regex.test(email)) {
+            $('#email_error').css('display', 'none');
+            email_status = true;
+        }
+        else {
+            $('#email_error').css('display', 'block');
+            $('#email_error').text('Please enter correct email.');
+            email_status = false;
+        }
+    }
+    if (email_status == true){
+        $.ajax({
+            type: 'post',
+            url: 'forget-password',
+            data: {
+                email: email,
+                csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+            },
+            success: function(response){
+                if (response.success == 'Done'){
+                    $('.spinner').css('display', 'none');
+                    $('.otp_submit').css('display', 'block');
+                }
+                else if (response.error == 'Not Done'){
+                    alert(response.error);
+                }
+                else{
+                    alert('Try again');
+                }
+            }
+        })
+    }
+})
+
 $('#sign_in_btn').on('click', function(){
+    $('.required_fields').css('display', 'none');
     $('.sign_up').css('display', 'none');
     $('.sign_in').css('display', 'block');
     $(this).css('display', 'none');
@@ -248,7 +287,7 @@ $('#sign_up_btn').on('click', function(){
         maxlength="15"
         />
         <span class="focus-input100" data-symbol="&#xf190;"></span>
-        <span class="required_fields" id="first_name_error">This field is required.</span>
+        <span class="required_fields display_none" id="first_name_error">This field is required.</span>
         </div><div
     class="wrap-input100 validate-input m-b-23"
     >
@@ -261,19 +300,19 @@ $('#sign_up_btn').on('click', function(){
         maxlength="15"
     />
     <span class="focus-input100" data-symbol="&#xf190;"></span>
-    <span class="required_fields" id="last_name_error">This field is required.</span>
+    <span class="required_fields display_none" id="last_name_error">This field is required.</span>
     </div><div
     class="wrap-input100 validate-input m-b-23"
     >
-    <span class="label-input100">Emal</span>
+    <span class="label-input100">Email</span>
     <input
     class="input100"
     type="email"
-    name="emal"
-    placeholder="Type your emal"
+    name="email"
+    placeholder="Type your email"
     />
     <span class="focus-input100" data-symbol="&#xf190;"></span>
-    <span class="required_fields" id="emal_error">This field is required.</span>
+    <span class="required_fields display_none" id="email_error">This field is required.</span>
     </div><div
     class="wrap-input100 validate-input m-b-23"
     >
@@ -285,7 +324,7 @@ $('#sign_up_btn').on('click', function(){
     placeholder="Type your password"
     />
     <span class="focus-input100" data-symbol="&#xf190;"></span>
-    <span class="required_fields" id="pass_error">This field is required.</span>
+    <span class="required_fields display_none" id="pass_error">This field is required.</span>
     </div><div
     class="wrap-input100 validate-input m-b-23"
     >
@@ -297,9 +336,37 @@ $('#sign_up_btn').on('click', function(){
     placeholder="Type your Confirm Password"
     />
     <span class="focus-input100" data-symbol="&#xf190;"></span>
-    <span class="required_fields" id="c_pass_error">This field is required.</span>
+    <span class="required_fields display_none" id="c_pass_error">This field is required.</span>
     </div>`;
     $('.fields').append(sign_up_field);
     $('.forget_pass').text('');
     $('.sign_text').text('Or Sign In Using');
+})
+
+
+$('.forget_pass').on('click', function(){
+    $(this).css('display', 'none');
+    $('.forget_pass_otp').css('display', 'block');
+    $('.form-title').text('Reset Password')
+    $('.sign_in').css('display', 'none');
+    $('.sign_text').css('display', 'none');
+    $('#sign_up_btn').css('display', 'none');
+    $('.sign_up').css('display', 'none');
+    let remove_ele = [0, 0];
+    for (i of remove_ele){
+        $('.fields').children()[i].remove();
+    }
+    $('.fields').append(`<div
+    class="wrap-input100 validate-input m-b-23"
+    >
+    <span class="label-input100">Email</span>
+    <input
+    class="input100"
+    type="email"
+    name="email"
+    placeholder="Type your email"
+    />
+    <span class="focus-input100" data-symbol="&#xf190;"></span>
+    <span class="required_fields display_none" id="email_error">This field is required.</span>
+    </div>`);
 })

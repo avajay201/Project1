@@ -10212,20 +10212,15 @@ iframe {
     bottom: 0
 }
 
-#sign_in_btn{
-    display: none;
-}
-
-.sign_up{
-    display: none;
-}
-
 .required_fields{
-    display: none;
     color: red;
     font-size: 15px;
 }
 
 .toast{
     font-size: 12px;
+}
+
+.display_none{
+    display: none;
 }

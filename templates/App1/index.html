@@ -42,7 +42,7 @@
                   maxlength="20"
                 />
                 <span class="focus-input100" data-symbol="&#xf206;"></span>
-                <span class="required_fields" id="username_error">This field is required.</span>
+                <span class="required_fields display_none" id="username_error">This field is required.</span>
               </div>
               <div
                 class="wrap-input100 validate-input"
@@ -55,7 +55,7 @@
                   placeholder="Type your password"
                 />
                 <span class="focus-input100" data-symbol="&#xf190;"></span>
-                <span class="required_fields" id="pass_error">This field is required.</span>
+                <span class="required_fields display_none" id="pass_error">This field is required.</span>
               </div>
             </div>
             <div class="text-right p-t-8 p-b-31">
@@ -65,7 +65,13 @@
               <div class="wrap-100-form-btn">
                 <div class="bt-100-form-bgbtn"></div>
                 <button class="bt-100-form-btn sign_in">Sign In</button>
-                <button class="bt-100-form-btn sign_up">Sign Up</button>
+                <button class="bt-100-form-btn sign_up display_none">Sign Up</button>
+                <button class="bt-100-form-btn forget_pass_otp display_none">Send OTP</button>
+                <button class="bt-100-form-btn otp_submit display_none">Submit</button>
+                <button class="bt-100-form-btn spinner display_none"><div class="spinner-border text-info" role="status">
+                  <span class="visually-hidden"></span>
+                </div></button>
+                
               </div>
             </div>
             <!-- <div class="txt1 text-center p-t-54 p-b-20">
@@ -85,7 +91,7 @@
             <div class="flex-col-c p-t-155">
               <span class="txt1 p-b-17 sign_text"> Or Sign Up Using </span>
               <a class="txt2" id="sign_up_btn"> Sign Up </a>
-              <a class="txt2" id="sign_in_btn"> Sign In </a>
+              <a class="txt2 display_none" id="sign_in_btn"> Sign In </a>
             </div>
           <!-- </form> -->
         </div>
