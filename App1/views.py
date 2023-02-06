@@ -14,17 +14,18 @@ from django.contrib.auth import login, logout, authenticate
 from django.core.mail import send_mail
 import random
 
-def otp():
+def new_otp():
     return f'{random.randint(0, 9)}{random.randint(0, 9)}{random.randint(0, 9)}{random.randint(0, 9)}{random.randint(0, 9)}{random.randint(0, 9)}'
 
 def send_email(customer_email, name):
     try:
         subject = 'Password Reset'
-        message = f'Hi {name}, Your password reset OTP - {otp()}.'
+        otp = new_otp()
+        message = f'Hi {name}, Your password reset OTP - {otp}.'
         email_from = settings.EMAIL_HOST_USER
         recipient_list = [customer_email]
         send_mail(subject, message, email_from, recipient_list)
-        return True
+        return otp
     except Exception as err:
         return False
 
@@ -32,7 +33,7 @@ class Index(View):
     def get(self, request):
         return render(request, 'App1/tools.html')
 
-class Sign_Up(View):    
+class Sign_Up(View):
     def post(self, request):
         username = request.POST.get('username')
         fname = request.POST.get('fname')
@@ -87,17 +88,36 @@ class Sign_In(View):
 class Forget_Password(View):
     def post(self, request):
         email = request.POST.get('email')
-        user = User.objects.filter(email = email).first()
-        if user:
-            send_email(email, f'{user.first_name} {user.last_name}')
-            response = {
-                'success': 'Done'
-            }
-        else:
-            response = {
-                'error': 'Not Done'
-            }
-        return JsonResponse(response)
+        verify_otp = request.POST.get('otp')
+        if verify_otp:
+            print('===========', request.session['otp'])
+            if request.session['otp'] == verify_otp:
+                print('in if ===============')
+                response = {
+                    'success': 'Verified',
+                    'otp_verifying': True
+                }
+            else:
+                print('in else ===============')
+                response = {
+                    'error': 'Please enter correct OTP.',
+                    'otp_verifying': True
+                }
+            return JsonResponse(response)
+        elif email:
+            user = User.objects.filter(email = email).first()
+            if user:
+                request.session['otp'] = send_email(email, f'{user.first_name} {user.last_name}')
+                response = {
+                    'success': 'OTP sent successfully.',
+                    'otp_verifying': False
+                }
+            else:
+                response = {
+                    'error': 'This email has no account.',
+                    'otp_verifying': False
+                }
+            return JsonResponse(response)
 
 
 # class Tools(View):

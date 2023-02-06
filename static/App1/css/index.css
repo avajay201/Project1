@@ -10224,3 +10224,11 @@ iframe {
 .display_none{
     display: none;
 }
+
+.toast-error{
+    background-color: red!important;
+}
+
+.toast-success{
+    background-color: green!important;
+}

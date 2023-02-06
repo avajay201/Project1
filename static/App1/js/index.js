@@ -197,7 +197,7 @@ $('.sign_in').on('click', function () {
                 }
                 else if (data.success == 'Sign in successfully.') {
                     toastr.success(data.success);
-                    setTimeout(reload, 1000);
+                    setTimeout(reload, 1500);
                 }
                 else{
                     toastr.error('Please try again.')
@@ -208,7 +208,28 @@ $('.sign_in').on('click', function () {
 })
 
 $('.forget_pass_otp').on('click', function(){
-    $('.spinner').css('display', 'block');
+    self = $(this);
+    otp_status = false;
+    otp = '';
+    email = '';
+    if ($(self).text() == 'Submit'){
+        otp = $('input[name=otp]').val()
+        if (otp == ''){
+            $('#otp_error').css('display', 'block');
+            otp_status = false;
+        }
+        else{
+            if (otp.length < 6 | otp.length > 6) {
+                $('#otp_error').css('display', 'block');
+                $('#otp_error').text('Please enter all number of otp.');
+                otp_status = false;
+            }
+            else {
+                $('#otp_error').css('display', 'none');
+                otp_status = true;
+            }
+        }
+    }
     email = $('input[name=email]').val();
     email_status = false;
     if (email == ''){
@@ -220,6 +241,8 @@ $('.forget_pass_otp').on('click', function(){
         if (regex.test(email)) {
             $('#email_error').css('display', 'none');
             email_status = true;
+            $(self).css('display', 'none');
+            $('.spinner').css('display', 'block');
         }
         else {
             $('#email_error').css('display', 'block');
@@ -227,24 +250,56 @@ $('.forget_pass_otp').on('click', function(){
             email_status = false;
         }
     }
-    if (email_status == true){
+    if (email_status == true | otp_status == true){
         $.ajax({
             type: 'post',
             url: 'forget-password',
             data: {
                 email: email,
+                'otp': otp,
                 csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
             },
             success: function(response){
-                if (response.success == 'Done'){
-                    $('.spinner').css('display', 'none');
-                    $('.otp_submit').css('display', 'block');
-                }
-                else if (response.error == 'Not Done'){
-                    alert(response.error);
+                if (response.otp_verifying == 'True'){
+                    console.log('---------------------------')
+                    if (response.success == 'Verified'){
+                        toastr.success(response.success);
+                    }
+                    else if(response.error == 'Please enter correct OTP.'){
+                        toastr.error(response.error);
+                    }
+                    else{
+                        toastr.error('Please try again.');
+                    }
                 }
                 else{
-                    alert('Try again');
+                    $('.spinner').css('display', 'none');
+                    $(self).css('display', 'block');
+                    if (response.success == 'OTP sent successfully.'){
+                        $(self).text('Submit');
+                        $('.fields').children()[0].remove();
+                        $('.fields').append(`<div
+                        class="wrap-input100 validate-input m-b-23"
+                        >
+                        <span class="label-input100">OTP</span>
+                        <input
+                        class="input100"
+                        type="text"
+                        name="otp"
+                        maxlength="6"
+                        placeholder="Type your otp"
+                        />
+                        <span class="focus-input100" data-symbol="&#xf190;"></span>
+                        <span class="required_fields display_none" id="otp_error">This field is required.</span>
+                        </div>`);
+                        toastr.success(response.success);
+                    }
+                    else if (response.error == 'This email has no account.'){
+                        toastr.error(response.error);
+                    }
+                    else{
+                        toastr.error('Please try again.');
+                    }
                 }
             }
         })
