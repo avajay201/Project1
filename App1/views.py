@@ -89,16 +89,14 @@ class Forget_Password(View):
     def post(self, request):
         email = request.POST.get('email')
         verify_otp = request.POST.get('otp')
+        password = request.POST.get('password')
         if verify_otp:
-            print('===========', request.session['otp'])
             if request.session['otp'] == verify_otp:
-                print('in if ===============')
                 response = {
                     'success': 'Verified',
                     'otp_verifying': True
                 }
             else:
-                print('in else ===============')
                 response = {
                     'error': 'Please enter correct OTP.',
                     'otp_verifying': True
@@ -107,6 +105,7 @@ class Forget_Password(View):
         elif email:
             user = User.objects.filter(email = email).first()
             if user:
+                request.session['email'] = email
                 request.session['otp'] = send_email(email, f'{user.first_name} {user.last_name}')
                 response = {
                     'success': 'OTP sent successfully.',
@@ -117,6 +116,14 @@ class Forget_Password(View):
                     'error': 'This email has no account.',
                     'otp_verifying': False
                 }
+            return JsonResponse(response)
+        else:
+            user = User.objects.filter(email = request.session['email']).first()
+            user.set_password(password)
+            user.save()
+            response = {
+                'success': 'Password changes saved.',
+            }
             return JsonResponse(response)
 
 

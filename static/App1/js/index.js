@@ -260,10 +260,38 @@ $('.forget_pass_otp').on('click', function(){
                 csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
             },
             success: function(response){
-                if (response.otp_verifying == 'True'){
-                    console.log('---------------------------')
+                if (response.otp_verifying == true){
                     if (response.success == 'Verified'){
                         toastr.success(response.success);
+                        $('.forget_pass_otp').css('display', 'none');
+                        $('.fields').children()[0].remove();
+                        $('.save_pass').css('display', 'block');
+                        $('.fields').append(`<div
+                        class="wrap-input100 validate-input m-b-23"
+                        >
+                        <span class="label-input100">Password</span>
+                        <input
+                        class="input100"
+                        type="password"
+                        name="pass"
+                        placeholder="Type your password"
+                        />
+                        <span class="focus-input100" data-symbol="&#xf190;"></span>
+                        <span class="required_fields display_none" id="pass_error">This field is required.</span>
+                        </div><div
+                        class="wrap-input100 validate-input m-b-23"
+                        >
+                        <span class="label-input100">Confirm Password</span>
+                        <input
+                        class="input100"
+                        type="password"
+                        name="c_pass"
+                        placeholder="Type your Confirm Password"
+                        />
+                        <span class="focus-input100" data-symbol="&#xf190;"></span>
+                        <span class="required_fields display_none" id="c_pass_error">This field is required.</span>
+                        </div>`);
+
                     }
                     else if(response.error == 'Please enter correct OTP.'){
                         toastr.error(response.error);
@@ -305,6 +333,60 @@ $('.forget_pass_otp').on('click', function(){
         })
     }
 })
+
+$('.save_pass').on('click', function(){
+    password = $('input[name=pass]').val();
+    c_password = $('input[name=c_pass]').val();
+    pass_status = false;
+    c_pass_status = false;
+    if (password == ''){
+        $('#pass_error').css('display', 'block');
+        pass_status = false;
+    }
+    else{
+        $('#pass_error').css('display', 'none');
+        pass_status = true;
+    }
+    if (c_password == ''){
+        $('#c_pass_error').css('display', 'block');
+        c_pass_status = false;
+    }
+    else{
+        $('#c_pass_error').css('display', 'none');
+        c_pass_status = true;
+    }
+    if (pass_status & c_pass_status){
+        $('.save_pass').css('display', 'none');
+        $('.spinner').css('display', 'block');
+        if (password == c_password) {
+            data = {
+                'password': password,
+                'c_pass_status': c_pass_status,
+                'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val()
+            }
+            $.ajax({
+                type: 'post',
+                url: 'forget-password',
+                data: data,
+                success: function (response) {
+                    if (response.success == 'Password changes saved.') {
+                        toastr.success(response.success);
+                        setTimeout(reload(), 3000);
+                    }
+                    else{
+                        toastr.error('Please try again.');
+                        $('.save_pass').css('display', 'block');
+                        $('.spinner').css('display', 'none');
+                    }
+                }
+            })
+        }
+        else{
+            toastr.error('Password not matched.')
+        }
+    }
+})
+
 
 $('#sign_in_btn').on('click', function(){
     $('.required_fields').css('display', 'none');
