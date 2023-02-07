@@ -26,80 +26,80 @@ $('.sign_up').on('click', function () {
     pass_status = false;
     c_pass_status = false;
     if (username == ''){
-        $('#username_error').css('display', 'block');
+        $('#username_error').removeClass('display_none');
         user_status = false;
     }
     else{
         if (username.length >= 6 & username.length <= 20){
-            $('#username_error').css('display', 'none');
+            $('#username_error').addClass('display_none');
             user_status = true;
         }
         else{
-            $('#username_error').css('display', 'block');
+            $('#username_error').removeClass('display_none');
             $('#username_error').text('Username must be minimum 6 char and maximum 20 char.');
             user_status = false;
         }
     }
     if (fname == ''){
-        $('#first_name_error').css('display', 'block');
+        $('#first_name_error').removeClass('display_none');
         fname_status = false;
     }
     else{
         if (fname.length >= 3 & fname.length <= 15){
-            $('#first_name_error').css('display', 'none');
+            $('#first_name_error').addClass('display_none');
             fname_status = true;
         }
         else{
-            $('#first_name_error').css('display', 'block');
+            $('#first_name_error').removeClass('display_none');
             $('#first_name_error').text('First Name must be minimum 3 char and maximum 15 char.');
             fname_status = false;
         }
     }
     if (lname == ''){
-        $('#last_name_error').css('display', 'block');
+        $('#last_name_error').removeClass('display_none');
         lname_status = false;
     }
     else{
         if (lname.length >= 3 & lname.length <= 15){
-            $('#last_name_error').css('display', 'none');
+            $('#last_name_error').addClass('display_none');
             lname_status = true;
         }
         else{
-            $('#last_name_error').css('display', 'block');
+            $('#last_name_error').removeClass('display_none');
             $('#last_name_error').text('Last Name must be minimum 3 char and maximum 15 char.');
             lname_status = false;
         }
     }
     if (email == ''){
-        $('#email_error').css('display', 'block');
+        $('#email_error').removeClass('display_none');
         email_status = false;
     }
     else{
         let regex = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
         if (regex.test(email)) {
-            $('#email_error').css('display', 'none');
+            $('#email_error').addClass('display_none');
             email_status = true;
         }
         else {
-            $('#email_error').css('display', 'block');
+            $('#email_error').removeClass('display_none');
             $('#email_error').text('Please enter correct email.');
             email_status = false;
         }
     }
     if (password == ''){
-        $('#pass_error').css('display', 'block');
+        $('#pass_error').removeClass('display_none');
         pass_status = false;
     }
     else{
-        $('#pass_error').css('display', 'none');
+        $('#pass_error').addClass('display_none');
         pass_status = true;
     }
     if (c_password == ''){
-        $('#c_pass_error').css('display', 'block');
+        $('#c_pass_error').removeClass('display_none');
         c_pass_status = false;
     }
     else{
-        $('#c_pass_error').css('display', 'none');
+        $('#c_pass_error').addClass('display_none');
         c_pass_status = true;
     }
     form_status = true;
@@ -129,10 +129,10 @@ $('.sign_up').on('click', function () {
                     }
                     else if (response.success == 'Your account successfully created.') {
                         toastr.success(response.success);
-                        $('.sign_up').css('display', 'none');
-                        $('.sign_in').css('display', 'block');
-                        $('#sign_in_btn').css('display', 'none');
-                        $('#sign_up_btn').css('display', 'block');
+                        $('.sign_up').addClass('display_none');
+                        $('.sign_in').removeClass('display_none');
+                        $('#sign_in_btn').addClass('display_none');
+                        $('#sign_up_btn').removeClass('display_none');
                         $('.form-title').text('Sign In');
                         let remove_ele = [1, 1, 1, 2];
                         for (i of remove_ele){
@@ -166,19 +166,19 @@ $('.sign_in').on('click', function () {
     user_status = false;
     pass_status = false;
     if (username == ''){
-        $('#username_error').css('display', 'block');
+        $('#username_error').removeClass('display_none');
         user_status = false;
     }
     else{
-        $('#username_error').css('display', 'none');
+        $('#username_error').addClass('display_none');
         user_status = true;
     }
     if (password == ''){
-        $('#pass_error').css('display', 'block');
+        $('#pass_error').removeClass('display_none');
         pass_status = false;
     }
     else{
-        $('#pass_error').css('display', 'none');
+        $('#pass_error').addClass('display_none');
         pass_status = true;
     }
     if (user_status == true & pass_status == true){
@@ -215,17 +215,17 @@ $('.forget_pass_otp').on('click', function(){
     if ($(self).text() == 'Submit'){
         otp = $('input[name=otp]').val()
         if (otp == ''){
-            $('#otp_error').css('display', 'block');
+            $('#otp_error').removeClass('display_none');
             otp_status = false;
         }
         else{
             if (otp.length < 6 | otp.length > 6) {
-                $('#otp_error').css('display', 'block');
+                $('#otp_error').removeClass('display_none');
                 $('#otp_error').text('Please enter all number of otp.');
                 otp_status = false;
             }
             else {
-                $('#otp_error').css('display', 'none');
+                $('#otp_error').addClass('display_none');
                 otp_status = true;
             }
         }
@@ -233,19 +233,19 @@ $('.forget_pass_otp').on('click', function(){
     email = $('input[name=email]').val();
     email_status = false;
     if (email == ''){
-        $('#email_error').css('display', 'block');
+        $('#email_error').removeClass('display_none');
         email_status = false;
     }
     else{
         let regex = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
         if (regex.test(email)) {
-            $('#email_error').css('display', 'none');
+            $('#email_error').addClass('display_none');
             email_status = true;
-            $(self).css('display', 'none');
-            $('.spinner').css('display', 'block');
+            $(self).addClass('display_none');
+            $('.spinner').removeClass('display_none');
         }
         else {
-            $('#email_error').css('display', 'block');
+            $('#email_error').removeClass('display_none');
             $('#email_error').text('Please enter correct email.');
             email_status = false;
         }
@@ -263,9 +263,9 @@ $('.forget_pass_otp').on('click', function(){
                 if (response.otp_verifying == true){
                     if (response.success == 'Verified'){
                         toastr.success(response.success);
-                        $('.forget_pass_otp').css('display', 'none');
+                        $('.forget_pass_otp').addClass('display_none');
                         $('.fields').children()[0].remove();
-                        $('.save_pass').css('display', 'block');
+                        $('.save_pass').removeClass('display_none');
                         $('.fields').append(`<div
                         class="wrap-input100 validate-input m-b-23"
                         >
@@ -301,8 +301,8 @@ $('.forget_pass_otp').on('click', function(){
                     }
                 }
                 else{
-                    $('.spinner').css('display', 'none');
-                    $(self).css('display', 'block');
+                    $('.spinner').addClass('display_none');
+                    $(self).removeClass('display_none');
                     if (response.success == 'OTP sent successfully.'){
                         $(self).text('Submit');
                         $('.fields').children()[0].remove();
@@ -340,24 +340,24 @@ $('.save_pass').on('click', function(){
     pass_status = false;
     c_pass_status = false;
     if (password == ''){
-        $('#pass_error').css('display', 'block');
+        $('#pass_error').removeClass('display_none');
         pass_status = false;
     }
     else{
-        $('#pass_error').css('display', 'none');
+        $('#pass_error').addClass('display_none');
         pass_status = true;
     }
     if (c_password == ''){
-        $('#c_pass_error').css('display', 'block');
+        $('#c_pass_error').removeClass('display_none');
         c_pass_status = false;
     }
     else{
-        $('#c_pass_error').css('display', 'none');
+        $('#c_pass_error').addClass('display_none');
         c_pass_status = true;
     }
     if (pass_status & c_pass_status){
-        $('.save_pass').css('display', 'none');
-        $('.spinner').css('display', 'block');
+        $('.save_pass').addClass('display_none');
+        $('.spinner').removeClass('display_none');
         if (password == c_password) {
             data = {
                 'password': password,
@@ -375,8 +375,8 @@ $('.save_pass').on('click', function(){
                     }
                     else{
                         toastr.error('Please try again.');
-                        $('.save_pass').css('display', 'block');
-                        $('.spinner').css('display', 'none');
+                        $('.save_pass').removeClass('display_none');
+                        $('.spinner').addClass('display_none');
                     }
                 }
             })
@@ -389,11 +389,11 @@ $('.save_pass').on('click', function(){
 
 
 $('#sign_in_btn').on('click', function(){
-    $('.required_fields').css('display', 'none');
-    $('.sign_up').css('display', 'none');
-    $('.sign_in').css('display', 'block');
-    $(this).css('display', 'none');
-    $('#sign_up_btn').css('display', 'block');
+    $('.required_fields').addClass('display_none');
+    $('.sign_up').addClass('display_none');
+    $('.sign_in').removeClass('display_none');
+    $(this).addClass('display_none');
+    $('#sign_up_btn').removeClass('display_none');
     $('.form-title').text('Sign In');
     let remove_ele = [1, 1, 1, 2];
     for (i of remove_ele){
@@ -406,10 +406,10 @@ $('#sign_in_btn').on('click', function(){
 })
 
 $('#sign_up_btn').on('click', function(){
-    $('.sign_in').css('display', 'none');
-    $('.sign_up').css('display', 'block');
-    $(this).css('display', 'none');
-    $('#sign_in_btn').css('display', 'block');
+    $('.sign_in').addClass('display_none');
+    $('.sign_up').removeClass('display_none');
+    $(this).addClass('display_none');
+    $('#sign_in_btn').removeClass('display_none');
     $('.form-title').text('Sign Up');
     $('.fields').find('div')[1].remove();
     let sign_up_field = `<div
@@ -482,13 +482,15 @@ $('#sign_up_btn').on('click', function(){
 
 
 $('.forget_pass').on('click', function(){
-    $(this).css('display', 'none');
-    $('.forget_pass_otp').css('display', 'block');
-    $('.form-title').text('Reset Password')
-    $('.sign_in').css('display', 'none');
-    $('.sign_text').css('display', 'none');
-    $('#sign_up_btn').css('display', 'none');
-    $('.sign_up').css('display', 'none');
+    $(this).addClass('display_none');
+    $('.back_sign_in').removeClass('display_none');
+    $('.back_sign_in').css('padding-top', '60px');
+    $('.forget_pass_otp').removeClass('display_none');
+    $('.form-title').text('Reset Password');
+    $('.sign_in').addClass('display_none');
+    $('.sign_text').addClass('display_none');
+    $('#sign_up_btn').addClass('display_none');
+    $('.sign_up').addClass('display_none');
     let remove_ele = [0, 0];
     for (i of remove_ele){
         $('.fields').children()[i].remove();
@@ -506,4 +508,43 @@ $('.forget_pass').on('click', function(){
     <span class="focus-input100" data-symbol="&#xf190;"></span>
     <span class="required_fields display_none" id="email_error">This field is required.</span>
     </div>`);
+})
+
+$('.back_sign_in').on('click', function(){
+    $('.back_sign_in').addClass('display_none');
+    $('.sign_in').removeClass('display_none');
+    $('.forget_pass').removeClass('display_none');
+    $('.sign_text').removeClass('display_none');
+    $('#sign_up_btn').removeClass('display_none');
+    $('.forget_pass_otp').addClass('display_none');
+    $('.form-title').text('Sign In');
+    $('.fields').children()[0].remove();
+    $('.fields').append(`<div
+    class="wrap-input100 validate-input m-b-23"
+  >
+    <span class="label-input100">Username</span>
+    <input
+      class="input100"
+      type="text"
+      name="username"
+      placeholder="Type your username"
+      maxlength="20"
+    />
+    <span class="focus-input100" data-symbol="&#xf206;"></span>
+    <span class="required_fields display_none" id="username_error">This field is required.</span>
+  </div>
+  <div
+    class="wrap-input100 validate-input"
+  >
+    <span class="label-input100">Password</span>
+    <input
+      class="input100"
+      type="password"
+      name="pass"
+      placeholder="Type your password"
+    />
+    <span class="focus-input100" data-symbol="&#xf190;"></span>
+    <span class="required_fields display_none" id="pass_error">This field is required.</span>
+    </div>`);
+    // $('.fields').children()[0].remove();
 })

@@ -10232,3 +10232,7 @@ iframe {
 .toast-success{
     background-color: green!important;
 }
+
+.cursor_pointer{
+    cursor: pointer;
+}
