@@ -546,5 +546,7 @@ $('.back_sign_in').on('click', function(){
     <span class="focus-input100" data-symbol="&#xf190;"></span>
     <span class="required_fields display_none" id="pass_error">This field is required.</span>
     </div>`);
-    // $('.fields').children()[0].remove();
+    if ($('.fields').children()[2]){
+        $('.fields').children()[0].remove()
+    }
 })

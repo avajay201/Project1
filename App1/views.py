@@ -79,7 +79,6 @@ class Sign_In(View):
                 }
             return JsonResponse(response)
         except Exception as e:
-            print('The error -', e)
             response = {
                 'error': 'Please try again.'
             }
